@@ -1,0 +1,26 @@
+Install on Windows 95/98, higher not testend and likely not working.
+
+1) In Windows, edit config.sys and place at first line:
+	SHELL=C:\windows\command.com C:\windows /E:2048 /P
+   This will enlarge the MS-DOS environment to take up all the variables.
+2) Install Visual C++ 2.0 (for the NDIS 3.1 MAC driver, 5.0 for the NDIS 3.1 MiniPort or NDIS 4/5),
+	Serial 040-111111111
+3) Install MASM611
+	- Don't install any patches from MASM611 yet!
+4) Install Windows 95/NT4 SDK from August 1996
+5) Install Windows 95 OSR2.5 DDK from early 1998
+6) From the DDK disk, copy over the MASM611c update, both files, to
+	C:\MASM611
+	C:\MASM611\bin
+7) From the DDK disk, copy over the VC20 update:
+	This new linker should only be used by ddk developers experiencing 
+	problems with the MS VC++ 2.0 linker w.r.t. to linking VxDs. 
+	
+	Copy link.exe, link.err, and dbi.dll to your local \msvc20\bin 
+	directory.
+	
+	Copy imagehlp.dll to your local \windows\system 
+	directory.
+8) Check rebuild.bat for paths, should be fine
+9) Run rebuild.bat to compile and link
+10) Use Borland CodeWright 7.5 as an IDE (project files set up)	

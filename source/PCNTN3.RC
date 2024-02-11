@@ -1,0 +1,102 @@
+#include <windows.h>           
+#include <ntverp.h>
+// #include <version.h>            /* Added 1/31/94  */
+
+// #include "common.ver"
+
+/*-----------------------------------------------*/
+/* the following lines are specific to this file */
+/*-----------------------------------------------*/
+
+/* VER_FILETYPE, VER_FILESUBTYPE, VER_FILEDESCRIPTION_STR
+ * and VER_INTERNALNAME_STR must be defined before including COMMON.VER
+ * The strings don't need a '\0', since common.ver has them.
+*/
+
+/* possible values:             VFT_UNKNOWN
+				VFT_APP
+				VFT_DLL
+				VFT_DRV
+				VFT_FONT
+				VFT_VXD
+				VFT_STATIC_LIB
+*/
+
+/* possible values              VFT2_UNKNOWN
+				VFT2_DRV_PRINTER
+				VFT2_DRV_KEYBOARD
+				VFT2_DRV_LANGUAGE
+				VFT2_DRV_DISPLAY
+				VFT2_DRV_MOUSE
+				VFT2_DRV_NETWORK
+				VFT2_DRV_SYSTEM
+				VFT2_DRV_INSTALLABLE
+				VFT2_DRV_SOUND
+				VFT2_DRV_COMM
+*/
+
+#ifdef RC_INVOKED
+
+#define VER_LEGALCOPYRIGHT_YEARS    "1994"
+
+#define VER_LEGALCOPYRIGHT_STR "(C) Copyright AMD Corporation All Rights Reserved." VER_LEGALCOPYRIGHT_YEARS
+
+#define VER_FILETYPE                VFT_DRV
+
+#define VER_FILESUBTYPE             VFT2_DRV_NETWORK
+
+#define VER_FILEDESCRIPTION_STR     "Network Driver for AMD PCNET family"
+
+#define VER_INTERNALNAME_STR        "AMDPCN.SYS"
+
+#define VER_ORIGINALFILENAME_STR    VER_INTERNALNAME_STR
+
+#define AVER_COMPANYNAME_STR         "Advanced Micro Devices."
+
+#define AVER_PRODUCTNAME_STR         "Network Driver for AMD PCNET family" 
+
+#define AVER_PRODUCTVERSION          3,23
+
+
+#define VER_FILEVERSION AVER_PRODUCTVERSION
+
+
+#define AVER_PRODUCTVERSION_STR "3.23"
+
+#define VER_FILEVERSION_STR AVER_PRODUCTVERSION_STR
+
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION    VER_FILEVERSION
+PRODUCTVERSION VER_PRODUCTVERSION
+
+
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+	BLOCK "040904B0"   /* LANG_ENGLISH/SUBLANG_ENGLISH_US, Unicode CP */
+	BEGIN
+	    VALUE "CompanyName",     AVER_COMPANYNAME_STR
+	    VALUE "FileDescription", VER_FILEDESCRIPTION_STR
+	    VALUE "FileVersion",     VER_FILEVERSION_STR
+	    VALUE "InternalName",    VER_INTERNALNAME_STR
+	    VALUE "LegalCopyright",  VER_LEGALCOPYRIGHT_STR
+	    VALUE "OriginalFilename",VER_ORIGINALFILENAME_STR
+	    VALUE "ProductName",     AVER_PRODUCTNAME_STR
+	    VALUE "ProductVersion",  AVER_PRODUCTVERSION_STR
+	END
+
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+	VALUE "Translation", 0x040904B0L
+    END
+END
+
+#endif
+
+
+
+
+

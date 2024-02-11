@@ -1,0 +1,856 @@
+Date       OS     BY  File             Change
+
+1/24/94    WFW/NT    lance.c           Routine:check_conflict
+                                      
+                                       The 2nd and subsequent non-PCI
+                                       boards would not have installed
+                                       correctly with the old code.
+                                       Create diff to see changes
+                                       
+1/27/94    NT        oemsetup.inf      Changed the BusNumValue to 
+                                       0 from 1. The card exists on the
+                                       only bus in the system.
+                                       
+1/28/94    WFW/NT    lance.c           Bug in the TP check. There was
+                                       a statement that always set the 
+                                       TP Keyword to zero regardless of 
+                                       the value read. Commented the line
+                                       out.
+                                       
+2/3/94     NT        pcntn3.rc         Changed the file name to tmp.rc.
+                                       Modified the file to avoid dup-
+                                       licate definitions of global var-
+                                       iables.The file will now display
+                                       correct information under File
+                                       Manager/Properties.
+                                       
+2/7/94     NT        oemsetup.inf      Added dialogs for PCI1 and PCI2. 
+                     dialogs.dlg       Added two buttons for PCI1 and PCI2
+                                       in the dialogs.dlg.
+                                       
+2/11/94    WFW/NT    lance.c           Changed the PCI scan mechanism#1
+                                       routine to enable the service.
+                                       
+2/16/94    WFW/NT    lance.c           Fixed the LanceInterruptVector
+                                       value read from the Config space
+                                       in PCI scan#1. The value is set
+                                       correctly now.
+                                       
+2/22/94    WFW/NT    lance.c           Added PCI fix to the LanceResetChip
+                                       routine so that the STOP-INIT-STOP
+                                       sequence is followed if BUS=PCI.
+                                       Added code to the adapter init so
+                                       that the fields described below can
+                                       be initialized.
+                                       
+2/22/94    WFW/NT    lancesft.h        Added four fields to the Adapter
+                                       structure to support the PCI fix
+                                       on a per-adapter basis.
+                                       The fields are: mechanism, pci_bus,
+                                       pci_dev, pci_func.
+                                       
+2/24/94    WFW/NT    interrup.c        Added code in the DPC to check if
+                                       the TXON bit is off. If yes, then
+                                       driver reset is called.
+                                       
+2/25/94    WFW/NT    lance.c           Changed the strcmp for getting
+                                       BusScan value to NdisEqualString.
+                                       The function is undocumented but
+                                       required since NT only deals with
+                                       UNICODE strings which cannot be
+                                       compared by strcmp.
+                                       Code in NdisReadConfiguration for
+                                       the BusTypeString.
+                                        
+                                       
+3/01/94	   WFW/NT     lance.c	       In the scan_plug() routine,the
+		                       statement LanceBaseAddress==io
+                                       was changed to an assignment.
+                                                       
+5/18/94    WFW/NT Ram lance.c          In the scan_isa() routine, the 
+                                       statement io < 0x360 is changed to
+                                       io <= 0x360. This would allow IO Base
+                                       address of 0x360 also to be seen.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the scan_local() routine, the 
+                                       statement io < 0x400 is changed to
+                                       io <= 0x400. This would allow IO 
+                                       address of 0x400 also to be seen.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the check_install() routine, the 
+                                       statement i < 2 is changed to
+                                       i <= 2. This would allow three 
+                                       adapters to be loaded.
+                                       
+5/18/94    WFW/NT Ram interrup.c       In the LanceInterruptService(..) 
+                                       routine, the csr0 field in structure
+                                       Adapter was being updated even when
+                                       the interrupt did not belong to the
+                                       adapter. The field is now updated in
+                                       the event the interrupt is TRUE.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the scan_isa() and 
+                                       LanceHardwareDetails(..) routine, the
+                                       System dependent HP code to scan for
+                                       their ISA adapters, is removed.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the scan_isa() and 
+                                       LanceHardwareDetails(..) routine, the
+                                       System dependent HP code to scan for
+                                       their ISA adapters, is removed.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the pci_m2_disable_dma() routine, 
+                                       the 0xffffff141 is written to the 
+                                       pci command register.
+                                       
+5/18/94    WFW/NT Ram lance.c          In the pci_m2_enable_dma() routine, 
+                                       the 0xffffff145 is written to the 
+                                       pci command register.
+                                       
+6/06/94    WFW/NT Ram lance.c Rev1.21  In the LanceRegisterAdapter() routine,
+                                       if BusScan==PCI||PCI1||PCI2||LOCAL, 
+                                       then 
+                                       AdapterInformation.AdapterType=Mca.
+                                       When we register the above as ISA, the 
+                                       wrapper rejects a second card of this 
+                                       type,due to conflict of resources with 
+                                       DMA=0.The NdisInitializeInterrupt() 
+                                       routine is called with Shared 
+                                       interrupts and Level only for PCI and 
+                                       VL cards.In check_conflict() routine, 
+                                       check IRQs only for ISA and Plug and
+                                       play (seeing Bus Scan only). This fix 
+                                       enabled 2 pci cards to work on the 
+                                       same system(isa or eisa), with shared/
+                                       not shared irqs.
+
+6/19/94    WFW/NT Ram lance.c Rev1.3   In the LanceRegisterAdapter() routine, 
+                                       found a bug in above. When the icon 
+                                       All is chosen (for all buses), the 2
+                                       pci cards cannot work on the same 
+                                       system.
+                                       Now, I check for busfound==PCI||LOCAL
+                                       also. In check_conflict() routine, 
+                                       I check for busfound==ISA||PNP, for
+                                       irq conflicts.
+                                       
+6/19/94    WFW/NT Ram lance.c Rev1.3   Plug and Play Bug. 
+                                       When port#, dma and irq for pnp or isa 
+                                       card are 0,cannot be added by NT. In 
+                                       LanceRegisterAdapter() routine, the 
+                                       AdapterInformation.DmaChannel field is
+                                       not initialized with the new found 
+                                       value before registration. So a failure 
+                                       occurs when LanceInit is called(dma 0
+                                       is used instead of the actual channel).
+                                       I reinitialze the field before 
+                                       registration now.
+                                       
+6/19/94    WFW/NT Ram send.c  Rev1.3   Performane increase by 100%. Packets were 
+                                       being transmitted every 10ms. When 
+                                       LanceSend() routine is called by the OS,
+                                       it checks for Normal or Loopback packets 
+                                       and then executes a macro LANCE_DO_
+                                       DEFERRED() which inturn starts a 10ms 
+                                       timer, calling LanceTimerProcess, which
+                                       takes care of sending the packet. I have
+                                       written a new routine 
+                                       LanceSendImmediate() and a new macro 
+                                       LANCE_DO_SEND where the timer is not
+                                       called. Care is taken about the spin
+                                       locks and other issues for multi
+                                       processor systems.
+                                       
+6/19/94    WFW/NT Ram Request.c Rev1.3 Lance.inc is not included. Causes compilation problems.
+                                       Defined VendorDescription[] as an extern.
+
+6/19/94    WFW/NT Ram Lance.inc Rev1.3 Made the top 3 lines in the def of English
+                                       common to all languages. May have caused problems in
+                                       other languages.
+
+6/19/94    WFW    Ram Depend.mk Rev1.3 Removed lines including lance.inc. Causes redefinition 
+                                       errors during compiling(included in lance.c already).
+
+6/19/94    WFW/NT Ram Lance.c   Rev1.2 In Routine LanceHardwareDetails, decremented adapter->
+                                       pci_dev instead of pci_dev. Earlier the consecutive 
+                                       pci scan was starting from prev pci device (wrong!!).
+
+7/20/94    NT     Ram Oemsetup  Rev1.91The BusNumber parameter was added.
+
+7/20/94    ALL    Ram Lance.c   Rev1.91In Lance.c support for Full Duplex added. LanceAddAdapter
+                                       and SetupRegistersAndInit routines are modified.
+                                       Bug!! The keywords should be FDUP. Ndis2 driver does not
+                                       look for the present keyword.
+                                       The Keyword 10Base10 does not match in code and oemsetup.inf.
+                                       
+7/20/94    ALL    Ram Lance.c   Rev1.91In Lance.c, LanceHardwareDetails routine, the support for
+                                       Chicago is added (hw bus scan).
+
+7/20/94    ALL    Ram Lance.c   Rev1.91In Lance.c, LanceHardwareDetails routine, I don't require 
+                                       the user to specify '0', for i/o resources. This allows
+                                       for plug and play for isa+ and pci in Chicago.
+                                       Bug!! Have to allow auto scan for VL and isa + devices.
+
+7/20/94    ALL    Ram Lance.c   Rev1.91In Lance.c and other routines, changed #pragma to for
+                                       WFW3.11 and Chicago so that code segments do not get discarded
+                                       in Chicago.
+
+7/20/94    ALL    Ram Oemsetup  Rev1.91Have Changed Oemsetups to include all the above changes.
+
+7/20/94    ALL    Ram Interrup.cRev1.91Changed LanceInterruptService routine to check if device stopped
+                                       then return true.
+
+7/20/94    ALL    Ram Interrup.cRev1.91Changed LanceInterruptService routine to check if Power
+                                       management stop flag set, then return true.
+
+7/20/94    NT     Ram Pcnetdlg.dll     Included the FDUP box in the setup.
+
+7/20/94    ALL    Ram Send.c           Check if device stopped & if so, Initialize device.
+
+7/20/94    ALL    Ram Lance.c   Rev1.92In LanceRemove routine, reset the device after LanceStopChip,
+                                       so that Chicago can dynamically add & remove devices.
+
+8/01/94    ALL    Ram Lance.c   Rev1.94In LanceHardwareDetails, check chip ID for Lance, PCnet ISA, 
+                                       PCnet+ & PCnet ++ only.
+                                       In SetupRegistersAndInit routine, for PCnet ++ only support FDUP.
+
+8/01/94    ALL    Ram Setup.Inf Rev1.94Display '0' resources as Auto Scan.
+                                       This option was not there in Rev1.91 and 1.92. So an Auto Scan
+                                       in the case of Legacy devices was not possible.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In pci_m2_disable_dma(), pci_m1_disable_dma(), pci_m2_enable_dma(),
+                                       pci_m2_enable_dma(), scan_pci_1 & scan_pci_2 routines, changed the
+                                       PCI configuration space R/W, to read modify writes.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In pci_m2_disable_dma(), pci_m2_enable_dma(), scan_pci_2 & scan_pci
+                                       switched to word I/O for PCI mech2 config access.
+
+8/08/94    ALL    Ram Tmp.rc    Rev1.95Modified to include the Driver Revision etc.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In scan_pci_2 & scan_pci_1 routines, check if PCI device enable.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In scan_pci_1 routines, initialized mechanism and chip_type fields,
+                                       to enable the pci stop algorithm for mech 1 too.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In LanceStopChip, make sure the IDON bit is set. In NT, the wait loop
+                                       was not being executed, and driver proceeds to start the chip before
+                                       Init. Could be a problem in very fast systems.
+                                       Clear the IDON bit before setting the Init bit in CSR0.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95Shifted selecting the mode for the Init block,for Tp in LanceRegister
+                                       Adapter to SetupRegistersAndInit routine. The routine is called 
+                                       everytime the chip reinitializes, on a stop condition.
+
+8/08/94    ALL    Ram Lance.c   Rev1.95In LanceRegisterAdapter and LanceRemove routines, included a stall
+                                       execution of 1 micro secs looped for 150 ms, after a read from port
+                                       0x14 (Reset of chip).
+
+8/19/94    NT     Ram Tmp.rc    Rev1.97The version number same as in inf file.
+
+8/23/94    ALL    Ram Lance.c   Rev1.98In routine LanceStopChip(), for the PCI stop part there was a 
+                                       NdisStallExecution after stopping the chip. Not necessary and removed.
+
+8/23/94    ALL    Ram Lance.c   Rev1.98In routine LanceStopChip(), for non PCI controllers, after stopping the
+                                       the chip wait for 5 microseconds to make sure the chip has stopped.
+
+8/30/94    ALL    Ram Interrup.cRev1.99Whenever the chip is reset in Rx or Tx sections of the code, I have 
+                      Send.c           I have included flags in LanceSend() and LanceInterruptService routine 
+                                       and to prevent occurance of reset on one section of the code while the 
+                                       other is in the process of resetting. The reset in this case includes a 
+                                       stop and initialization of the chip. 
+
+9/07/94    ALL    Ram Request.c Rev1.991In LanceProcessRequestQueue(..) routine the NdisWriteErrorLogEntry 
+                                       call is not made for NDIS_WIN family. Only the NT family will make 
+                                       this call. Seems to be a problem with the wrapper.
+9/11/94    ALL    Ram Lance.c   Rev2.0 Led0 and Led1 default values interchanged in SetupRegistersAndInit routine.
+
+9/11/94    WIN    Ram Lance.c   Rev2.0 The compilation options using pragmas (in source code) to specify discardable
+                                       and non discardable code are not the same in Chicago and WFW311. Hence both
+                                       had to be included in code, with ifdefs of respective environment, namely 
+                                       CHICAGO & non (meaning WFW311). The 1.9x Rev of code had the CHICAGO option 
+                                       only, and caused problems on some m/c running WFW311. The WS sees the network
+                                       and on exit from windows, does not return to DOS(hang). Some times an Internal 
+                                       Stack Overflow occurs.
+
+9/11/94    WFW311 Ram inf       Rev2.0 Modified the setup to show i/o 0 also.
+
+9/11/94    NT     Ram inf       Rev2.0 Hot keys in setup for all positions do not work (for some reason??). I have
+                                       removed those hot keys only. The other working hot keys remain in the dialog
+                                       box.
+
+10/6/94    ALL    Ram Lance.c   Rev2.10In routine LanceStopChip() and SetupRegistersAndInit the variable Time was 
+                                       changed from a SHORT to a USHORT.
+
+10/6/94    ALL    Ram send.c    Rev2.10In routine LanceSend() and TransmitPacket() the initialization and check of 
+                                       flags ResetEnd and ResetStart was removed, whenever LanceInit is called. ResetEnd
+                                       is initialized to FALSE and I was checking if it was TRUE. This condition never
+                                       occured and LanceInit was never called. These flags are use in LanceReset only
+                                       and is not useful to use more than 1 flag. The flag in use is ResetInProgress.
+                                       TransmitPacket() is an extern now.
+
+10/6/94    ALL    Ram Interrup.cRev2.10In routine LanceDeferredProcessing() the initialization and check of flags 
+                                       ResetEnd and ResetStart was removed, whenever Stop/Start is done. ResetEnd
+                                       is initialized to FALSE and I was checking if it was TRUE. This condition never
+                                       occured and Stop/Start never occurs. These flags are used in LanceReset only
+                                       and is not useful to use more than 1 flag. The flag in use is ResetInProgress.
+
+10/6/94    ALL    Ram Lance.c   Rev2.10In routine SetupRegistersAndInit() the IDON mask is set. 
+                                       
+10/6/94    ALL    Ram Lance.c   Rev2.10In routine LanceStopChip() the IDON mask is set. Csr1 and Csr2 are initialized to
+                                       the physical Address of the Init block. This is to prevent reads from a memory 
+                                       location not existing.
+
+10/6/94    ALL    Ram Interrup.cRev2.10In routine ProcessReceiveInterrupts, the array 
+                                       Adapter->GeneralOptional[GO_RECEIVE_CRC-GO_ARRAY_START] was incorrectly indexed to
+                                       GO_RECEIVE_CRC only. This caused the code to write to a memory location not in the
+                                       Adapter Structure.
+
+10/6/94    ALL    Ram Interrup.cRev2.10In routine LanceInterruptService check for chip RUNNING is removed. This check here
+                                       is wrong since, an interrupt cannot be generated for TX (Int for TX are masked). 
+                                       Test csr0 value with 0x0080 instead of 0x8400.
+                                       If and only if interrupts are mine write back csr0 value to csr0 register.
+                                       If interrupts not mine do not enable interrupts on chip. This is wrong. Commented out
+                                       this line.
+
+10/6/94    ALL    Ram Interrup.cRev2.10In routine LanceDeferredProcessing() the check for TXON bit and chip Running are removed.
+                                       This part of the code is implemented in the send.c with a chip running check.
+
+10/6/94    ALL    Ram Lance.c   Rev2.10Added a new routine LanceInitializeChip() which resets, SetUpRegistersAndInit and then
+                                       Stops the chip. Please see the code and comments for flow. The general idea was to prevent
+                                       the Dma read from an arbitrary memory location when a pci_stop is done during init.
+
+10/6/94    ALL    Ram Lance.c   Rev2.10The STATIC variables at the begining of Lance.c have all been changed to global. A new
+                                       global ULONG check is also included and is used as a semaphore for the LanceStop().
+                                       In pci_enable_m1 and pci_disable_m1 routines an extra line to close config space after
+                                       read of the command register is included.
+                                       The pci_enable, pci_disable and LanceInit routines are externs.
+
+10/24/94   ALL    Ram Interrup.cRev2.11In InterruptServiceRoutine() Enable Interrupts only if not Processing DPC or no Resets.
+
+                                       In DPC added line; Csr0Value=Adapter->Csr0Value; at the begining. Done since this driver
+                                       enables interrupts  when TDMD bit is set in TransmitPacket() and also now in ISR. This 
+                                       does not mean that the DPC is reentrant. I am trying to save an instance of the Csr0Value
+                                       on the local stack. Another method would have been to pass the Csr0Value as a param for 
+                                       the DPC, but these seem to be reserved by the system.
+
+                                       In ProcessReceiveInterrupts(), if(PacketSize>1514), then don't indicate to wrapper.
+                               
+                                       In DPC, if ChipType == PCNET_ISA, Then Reset chip for MISSED_FRAME.
+ 
+                                       In DPC, after checking for errors, Check if Chip_Running. If not then, Reset chip.
+                                       Here, I read Csr0 again and save value on the local stack.
+
+                                       In LanceTimerProcess(), Changed the While loop, to have 2 while loops for loopback
+                                       packets and normal packets. if (Adapter->ResetInProgress && Adapter-References==2)
+                                       then , reset as usual. Please see code for flow.
+
+10/24/94   ALL    Ram Send.c    Rev2.11In LanceSend(), Begining, Reset chip only if(!ProcessingInterrupts) || 
+                                       (!ProcessingTransmits). 
+
+                                       In LanceSendImmediate(), the NdisSetTimer param has been changed to 1000 or
+                                       one Second.
+
+                                       In LanceSendImmediate(), Changed the While loop, to have 2 while loops for loopback
+                                       packets and normal packets. if (Adapter->ResetInProgress && Adapter-References==2)
+                                       then , reset as usual. Please see code for flow.
+
+10/24/94  ALL     Ram Lance.c   Rev2.11In LanceInit(), if (!SetupRegistersAndInit), then LanceStart();.
+                                       There is a chance that the IDON bit may not bet set in the reqd time due to other bus
+                                       activity. So Start the chip even if IDON bit is not set and let the chip take care of
+                                       the Init Block.
+
+10/24/94  ALL     Ram Lancesft.hRev2.11In LANCE_ADAPTER structure, changed field UINT References to INT References.
+
+10/25/94  ALL     Ram Lancesft.hRev2.12In LANCE_DO_DEFERRED macro, NdisSetTimer 
+                                       param was changed to 100 milliseconds.
+10/25/94  ALL     Ram Lance.c   Rev2.12In LanceStop the check in while loop is for 1000. Also 
+                                       NdisStallExecution parameter is 1.
+
+                                       In SetupRegistersAndInit() the while loop check is changed
+                                       to 50,000.
+
+                                       In LanceStart() setting the Init bit also.
+                                       
+10/25/94  ALL     Ram send.c    Rev2.12In TransmitPacket() check if ProcessingInterrupts then set TDMD in
+                                       Csr0, else set the INEA bit. This is a bug under WFW311!!
+                                       Needed to Read modify the Csr0 register.
+
+                                       In LanceSend(), LanceProcessSendPacketQueue and TransmitPacket after
+                                       a reset, call NdisCancelTimer(), to cancel the background timer.
+                                       Reinitialize the LANCEDEFERRED variable to FALSE.
+
+10/25/94  ALL     Ram interrup.cRev2.12In LanceInterruptService(), Don't disable board interrupts. 
+                                       Read csr0. 
+                                       If (my interrupt){
+                                         disable ints;
+                                         return TRUE ;
+                                       }
+                                       else
+                                         return FALSE ;
+                                       Bug !! When writting the csr0 value back INEA bit is enabled
+                                       enabled. Have to mask the INEA bit.
+
+                                       In DPC, instead of calling the timer, call LanceTimerProcess
+                                       directly.
+11/23/94  ALL     Ram Lance.c   Rev2.16In the scan_pci_1 ,scan_pci_2, disable_dma, and enable_dma
+                                       routines Put the P1 glitch fix.
+
+11/23/94  ALL     Ram Interrup.cRev2.16In LanceTimerProcess(), check for resets and FirstPacket and
+                                       then call LanceSendPacketQueue.
+
+11/23/94  ALL     Ram Interrup.cRev2.18The NdisSetTimer param is changed to 10 (1 millisecs).
+
+11/23/94  ALL     Ram Send.c    Rev2.18In LanceSend(), the NdisSetTimer param is changed to 10.
+
+11/23/94  ALL     Ram Lancehrd.hRev2.18Added fields, ProcessingLoopBacks and ProcessingTransmits,
+                                       to serialize Loopbacks and normal packets, in Adapter Structure.
+
+11/23/94  ALL     Ram Lance.c   Rev2.18In LanceInitializeChip(){ Reset, SetupRegistersAndInit(),
+                                       Stop(), Start()}.
+
+                                       In SetupRegistersAndInit(), don't set the INIT bit and don't
+                                       wait for the IDON bit to be set.
+
+11/23/94  ALL     Ram Request.c Rev2.18Check for resets before before calling LanceInit().
+
+11/23/94  ALL     Ram Lance.c   Rev2.181In LanceAddAdapter(), the NetworkAddress is read from the 
+                                        Registry if available, and writes it in the Init Block.
+
+11/23/94  ALL     Ram Send.c &  Rev2.181In LanceTimer() and LanceSendImmediate(), Adapter->References-- 
+                      Interrup.c        is done only for a success of the concerned operations. If
+                                        the timer has to be initialized then don't decrement References.
+                                        Without this change, the References field is useless.
+
+11/23/94  ALL     Ram Send.c    Rev2.181In LanceSend(), check for SendQueue and LoopBackQueue flags
+                                        before the packets enter the queue.
+                                        These 2 new fields have been added in Adapter Structure.
+
+11/23/94  ALL     Ram Interrup.cRev2.185In LanceInterruptService(), when csr0 value is written back
+                                        the INEA bit is set again. Now INEA bit is masked. 
+                                        This problem caused the ISR to reenter the DPC. This interrupt
+                                        may not be serviced and the packets fill up the buffer. The
+                                        next interrupt would be for Missed Packets and Real Packets 
+                                        would not be processed. 
+                                        This loss of network was seen in WFW311 and did not affect Nt
+                                        due to the spin locks.
+
+11/23/94  ALL     Ram Send.c    Rev2.185In TransmitPacket(), set TDMD by read modifying the csr0 register.
+                                        Don't set the INEA bit at all. This again enabled interrupts in
+                                        the DPC and caused the above problem and loss of network connection.
+                                        This loss of network was seen in WFW311 and did not affect Nt
+                                        due to the spin locks.
+
+11/23/94  ALL     Ram Lance.c   Rev2.185In SetupRegistersAndInit(), write into csr58, 0x0200. Set the SW 
+                                        style to 16 bits. This forced the controller to 16 bit mode. 
+                                        This fixes the problem where, ndis2 when running, m/c is warmbooted
+                                        and wfw311 system is started with Ndis3. The system would hang.
+                                        The Ndis2 driver sets the controller in 32 bit mode.
+
+11/23/94  ALL     Ram Lance.c   Rev2.186In scan_pci_1() and scan_pci_2(), Reset the controller by reading
+                                        from offset 14, if device is found.
+                                        This along with the above fixes the warmboot problem and loading NT 
+                                        from the network problem. 
+
+11/23/94  ALL     Ram Lance.c   Rev2.186In pci_mx_enable_dma() and pci_mx_disable_dma() write a 0 to a read
+                                        only register. Has to be done for every access to the pci config 
+                                        space. This is part of the P1 glitch fix.
+
+11/23/94  ALL     Ram Lance.c   Rev2.190In LanceAddAdapter(), BUSTIMER keyword added.
+
+11/23/94  ALL     Ram Lancehrd.cRev2.190The BUSTIMER_Default value is added and is equal to 6.
+
+11/23/94  NT      Ram inf       Rev2.190The Inf file was not reading the FDUP & BUSTIMER value from the
+                                        registry and sending to the setup dll. This is fixed.
+
+11/23/94  ALL     Ram inf       Rev2.190Added the BUSTIMER keyword.
+
+11/23/94  NT      Ram .hlp      Rev2.190The Help file has been modified for the BUSTIMER.
+
+11/23/94  ALL     Ram all.c     Rev2.190Added #pragma LCODE with an ifdef for Win95 only. This forces the
+                                        code to be locked in memory.
+
+11/23/94  ALL     Ram all       Rev2.20 Only a version number change.
+
+12/07/94  ALL     Ram Lance.c   Rev2.21 In scan_pci_1 and scan_pci_2, start the for loop from 0
+                                        for bus #, func # and dev #. The purpose for these changes
+                                        are for dynamic load and unload of driver.
+                                        While checking the IO_enable bit in pci config space also
+                                        calling check_install(local_iobase).
+                                        In LanceRemoveAdapter(), Restore the global arrays for io,
+                                        irq and dma to 0, when adapter is removed.
+                                       
+12/14/94  ALL     Ram Lance.c   Rev2.23 Added a new routine LanceSynchInterruptWithStart(), which looks
+                                        for the InterruptFlag set in the ISR. The purpose of this routine
+                                        is to prevent enabling of interrupts before the DPC is called, when
+                                        LanceInit is called and the chip is started.
+                                        For NT, this routine is called indirectly by calling 
+                                        NdisSynchronizeWithInterrupt, which increases the IRQL of called routine.
+                                        For the WIN family, this routine is called using Pushfd cli
+                                        LanceSynchInterruptWithStart() popfd. This is to prevent the ISR from
+                                        interrupting this routine.
+
+12/14/94  ALL     Ram Interrup.cRev2.23 In the ISR check INTR and INEA bit in Csr0 to determine that the 
+                                        interrupts are from the current adapter. This is quite important
+                                        while sharing interrupts with other adapters. The INTR bit in csr0
+                                        can be set even if INEA (in csr0) is not enabled.
+                                        In the DPC disable board interrupts on entry. Just making sure that 
+                                        the DPC runs with board interrupts disabled.
+
+12/14/94  ALL     Ram Send.c    Rev2.23 In the routine TransmitPacket(),
+                                        Adapter->TransmitDescriptorAvailable[CurrentDescriptorIndex];
+                                        has to be initialized to TRUE in the event a return is made from
+                                        this routine without setting the TDMD bit. The reason is that if
+                                        the return occurs, this TX Descriptor is owned by the Host but
+                                        the flag says FALSE. Now the caller of TransmitPacket(),
+                                        LanceProcessSendPacketQueue(), checks if the host owns the descriptor
+                                        and that this Flag is TRUE (Preventing other threads from using it) 
+                                        and then only makes the call. The end effect is that the Network
+                                        Fails, due to the fact that the call to TransmitPacket(), does
+                                        not occur. If the chip does get reset at another thread, for instance
+                                        the begining of LanceSend(), or in the DPC, or elsewhere, then all
+                                        all the TX descriptor flags will be reset to TRUE, and transmits occur
+                                        as usual. The changes are as follows;
+                                        In the case of an UFLO error, and a reset could not take place, 
+                                        set this flag to TRUE and then return.
+                                        Also, just before setting the TDMD bit, I was checking if the 
+                                        Chip is functioning (lines 863 to 874). Removed these lines. They
+                                        are redundant, since a check is done before TransmitPacket() is called.
+
+12/15/94  ALL     Ram Lance.c   Rev2.24 In the routine LanceRemoveAdapter(), Cancel the Deferred Timer. In case
+                                        this is not done, there is a chance the Timer fires after the adapter
+                                        is removed. This is not good.
+
+01/06/95  ALL     Ram Interrup.cRev2.25 In LanceDeferredProcessing(), 
+                                        interrupts are enabled on csr0 (INEA 
+                                        bit), after releasing the spin lock.
+                                        This is a problem in multiprocessing
+                                        systems. The TransmitPacket()
+                                        routine, read modifies writes the csr0
+                                        register to Transmit on demand. When
+                                        this read occurs prior to setting INEA
+                                        in DPC and the write occurs after, 
+                                        then we have the the chip interrupts
+                                        disabled and the driver will not get
+                                        an indication of rx packets. The 
+                                        symptom is a loss of network.
+
+01/10/95  ALL     Ram Interrup.cRev2.26 In LanceDeferredProcessing(), the
+                                        above change is #ifdef NDIS_NT.
+
+01/24/95  NT      Ram Send.c    Rev2.281For wfw311 we protect the portion 
+                                        where TDMD bit is set, with a cli. 
+                                        In NT, we cannot use this, and left 
+                                        it alone thinking the SpinLocks in
+                                        the DPC should protect it. This does 
+                                        not seem to be the case. I have 
+                                        used NdisSynchronizeWithInterrupt()
+                                        to protect this protion of the code 
+                                        in NT. This call masks the controller
+                                        interrupt on the PIC. Due to this a 
+                                        new routine, 
+                                        SendSynchronizeWithInterrupt() has 
+                                        been added.
+                                        Reason For Change: When tested under
+                                        stress with 1 TX and RX buffers, the
+                                        network was lost in apprx 2 hours. 
+                                        The controller was fine, and 
+                                        interrupts were being generated. 
+                                        The Rx buffer was full and Rx packets
+                                        were not being serviced by the DPC.
+                                        The csr0 showed Miss-Packets. The 
+                                        interrupts were being enabled outside
+                                        the DPC and mutiple interrupts were 
+                                        occuring in the DPC. If the interrupt
+                                        occurs after the 
+                                        ProcessReceiveInterrupt call then the 
+                                        second interrupt would be a 
+                                        MISS_PACKET and the Adapter->csr0
+                                        value would show this and not a RINT.
+
+02/09/95  ALL     Ram Lancehrd.hRev2.290The Number of Receive Buffers have 
+                                        been reduced to 16(from 32). There is
+                                        practically no performance difference
+                                        than using RXBuffers=32 & 
+                                        TXBuffers=16.
+                                        The advantage is that, we allocate 
+                                        24KBytes less of memory for the 
+                                        In the past we have not received all
+                                        the memory (70K), that we've requested
+                                        when other drivers are loaded on the 
+                                        system, and the driver fails to load.
+
+02/14/95  ALL     Ram Tmp.rc    Rev2.30 Changed the rev # from 2.290 to 2.30
+
+04/19/95  ALL     Ram lance.c   Rev2.48 In scan_pci(), the IO Base Address was 
+                                        checked for a max address of 64K only. 
+                                        This was in creased to 32 bits or 4G.
+
+04/19/95  ALL     Ram Interrup.cRev2.48 Position of flag ProcessingRxInts had 
+                                        to be changed in the DPC. This was the 
+                                        reason for not seeing Apple Talk
+                                        Networks on an NT system.
+
+04/19/95  ALL     Ram Request.c Rev2.48 OID_GEN_TRANSMIT_QUEUE_LENGTH, is 
+                                        optional and was stated as supported 
+                                        to the wrapper. In the code nothing 
+                                        was being done for it. So I removed 
+                                        this OID.
+
+04/19/95  ALL     Ram Request.c Rev2.48 MAXIMUM_LOOKAHEAD Buffer value was
+                                        returned incorrectly to the protocol 
+                                        by the driver. Another cause for a
+                                        failure on the Ndis Tester.
+
+04/19/95  ALL     Ram Request.c Rev2.48 If the requested LookAhead Buffer is
+                                        greater than the max allowed by the 
+                                        adapter then the driver has to
+                                        fail the request. This was not done 
+                                        previously. Another cause for a 
+                                        failure on the Ndis Tester.
+
+04/19/95  ALL     Ram Request.c Rev2.48 When the Driver was set to receive All 
+                                        Multicast packets and then received a 
+                                        request to change to rx a Multicast
+                                        list, the previous list for All 
+                                        Multicast packets was getting over
+                                        written. This was another cause for a 
+                                        failure  Rev2.48  on the Ndis Tester.
+
+04/19/95  ALL     Ram Lancehrd.hRev2.48 The Device Ids for ISA, ISA(PnP) and 
+                                        VL devices was defined incorrectly.
+                                        The Id for the ISA devices was used
+                                        in SetupRegistersAndInit() to check
+                                        whether both TP and FDUP->AUI were
+                                        selected by the user.
+
+04/19/95  ALL     Ram source.c  Rev2.48 Most of the subroutines were defined
+                                        as externs while their prototypes
+                                        in the headers were also defined as
+                                        externs. I have removed the externs
+                                        from the definitions of the 
+                                        subroutines in the .c files. This is
+                                        a grammatical error which has no
+                                        significance to the functioning of the
+                                        driver.
+
+04/28/95  NT      Ram Tmp.rc    Rev2.50 Revision Number Change.
+
+07/17/95  NT3.51  Ram lance.c   Rev3.00 Revision Number Change.
+
+07/17/95  NT3.51  Ram Driver    Rev3.00 Driver Name Changed to
+                                        Amdpcn.sys.
+                                        The NT driver is now Platform 
+                                        independent.
+
+07/17/95  NT3.51/ Ram Lance.c   Rev3.00 Removed all direct hardware Acceses.
+          Win95                         Removed scan_pci_1, scan_pci_2().
+                                        In scan_pci(), utilised the wrapper
+                                        routines for pci calls.
+                                        Changed all NdisRawRead/Write calls
+                                        to either NdisImmediate or 
+                                        NdisRead/Write calls.
+			        
+07/17/95  NT3.51/ Ram Send.c    Rev3.00 Changed all NdisRawRead/Write calls
+          Win95                         to either NdisImmediate or 
+                                	NdisRead/Write calls.
+
+07/17/95  NT3.51/ Ram Interrup.c Rev3.00 Changed all NdisRawRead/Write calls
+          Win95                          to either NdisImmediate or 
+                                	 NdisRead/Write calls.
+
+07/17/95  NT3.51  Ram Oem..inf  Rev3.00 Added PCI detection stuff.
+
+07/17/95  NT3.51  Ram DLL       Rev3.00 PCI controllers have a seperate
+                                        dialog from ISA/VL controllers.
+
+07/17/95  NT3.51/ Ram Lance.c   Rev3.00 In SetupRegistersAndInit routine
+          Win95                         Enabled Automatic Padding for 
+                                        Transmit Packets in Csr4.
+
+07/17/95  NT3.51/ Ram Send.c    Rev3.00 In TransmitPacket(), removed lines
+          Win95                         to check if packet less than 64 
+                                        bytes and zeroing the rest of 
+                                        packet.
+
+02/1/96  NT3.51/ Ram Lancehrd.h Rev3.10 Changed the following.
+         Win95                          (Dword Aligned Buffers.)
+                                        TRANSMIT_BUFFER_SIZE = 1520,
+                                        RECEIVE_BUFFER_SIZE  = 1520,
+                                        (Better Performance.)
+                                        TRANSMIT_BUFFERS     = 32,
+                                        RECEIVE_BUFFERS      = 32,
+                                        (To support enhanced features)
+                                        PCNET_PCI2_B2_REV_ID = 0x16,
+					PCNET_PCI3_REV_ID    = 0x20.
+                                        (Support 32 Bit Dma in PCI.)
+                                        struct _LANCE_INIT_BLOCK_HI,
+                                        BUFFER_LENGTH_EXPONENT_H,
+                                        _LANCE_TRANSMIT_DESCRIPTOR_HI,
+                                        _LANCE_RECEIVE_DESCRIPTOR_HI,
+
+02/1/96  NT3.51/ Ram Alloc.c    Rev3.10 Every Buffer is Dword Aligned.
+         Win95                          
+
+02/1/96  NT3.51/ Ram Lance.c    Rev3.10 SetupRegistersAndInit modified
+         Win95                          for 32 bit addressing.
+                                        If P2/P3/ISAII then disable stop on
+                                        UnderFlows.
+
+02/1/96  NT3.51/ Ram Send.c     Rev3.10 Sends are done without Queuing,
+         Win95                          if descriptors are available, else
+                                        queue the Packets. 
+                                        New routines, 
+                                        LanceProcessSendPacketImmediately and
+                                        New Macro, LANCE_SEND_NO_Q are 
+                                        used. Pls see code for details.
+                                        Tx Ints are enabled.
+                                        DeterminePacketAddressing() modified.
+
+02/1/96  NT3.51/ Ram Packet.c   Rev3.10 LanceCopyFromPacketToBuffer() 
+         Win95                          Modified.
+
+02/1/96  NT3.51/ Ram Interrup.c Rev3.10 New routine, LanceTimerProcessNoLock
+         Win95                          included. Have reduced the number of
+                                        SpinLocks in the DPC.
+
+02/1/96  NT3.51/ Ram Interrup.c Rev3.10 If chip is not ISAII, P2 and P3 then
+         Win95       Send.c             don't check if the chip is stopped or
+                                        reset on underflows.
+
+
+02/1/96  NT3.51/ Ram Lancehrd.h Rev3.10 Modified for Tx/Rx Buffers to 32.
+         Win95                          
+
+02/1/96  Win95   Ram Netamd.Inf Rev3.10 Modified so that pcntnd.dos, 
+                                        pcntn3.vxd and netamd.inf get copied
+                                        from the diskette.
+                                        Led0, 1, 2, 3 have default values in
+                                        the inf file.
+
+03/29/96 NT3.51/ Ram Send.c     Rev3.11 The drivers performance was reducing
+         Win95                          over periods of 12 hrs on some SMP
+                                        m/cs with P1 on the Motherboard.
+                                        The LanceProcessSendPacketQueue had
+                                        to be modified to check if the chip
+                                        was functioning OK. If not stop/start
+                                        the controller. This routine is 
+                                        called by the timer and even though
+                                        LanceSend has the same functionality,
+                                        there was a possiblitiy that in MP
+                                        systems the original checking (in 
+                                        send & DPC alone) would not work.
+
+09/06/96 NT3.51/ Duke Lance.c   Rev3.14 The AMD NDIS MAC driver use to work
+         Win95        Request.c         only in asynchornous mode and the 
+                                        PCNFS PRO ver 2.0 expecting synchronous
+                                        respond from the MAC driver in following
+                                        upper-edge functions:
+                                              1. MacOpenAdapter
+                                              2. MacCloseAdapter
+                                              3. MacSetInformation.
+                                        In Revision 3.14, fixed the above problem
+                                        by processing immediately and send status
+                                        "success" at the end of function instead
+                                        of "pending".
+
+09/06/96 NT3.51 Duke oemsetup.inf Rev3.16 (NT only)When there are more than one 
+                                          AMD PCnet cards and try to intall 
+                                          the driver in the same system, the loop 
+                                          part of script for LED setting uses
+                                          new previous LED values for each 
+                                          different card configurations instead 
+                                          of default value. Thus, introduced variable
+                                          to save the default LED value and 
+                                          used default value in the loop to 
+                                          configure LED for one or more cards.
+
+09/13/96 NT3.51/ Ram Send.c     Rev3.18 The DeferredProcessingRoutine, 
+         Win95       Loopback.c         ProcessLoopbacks, LanceSend,
+                     Interrup.c         Lancesft.h and 
+                                        LanceProcessSendImmediately were 
+                                        modified to process the end of 
+                                        Transmit Interrupt(EOT). Even though 
+                                        the EOT Int was present in revs from
+                                        R3.10, the DPC handled it only if
+                                        a Lancetimer was not set. The timer
+                                        gets set when there are no Tx 
+                                        Descriptors available. In stress
+                                        cases, this would happen.
+
+09/13/96 NT3.51/ Ram Interrup.c Rev3.18 The Rev ID of PCNET ISA B2 silicon
+         Win95       Lancehrd.h         is checked for in the DPC. If chip
+                                        is ISA and is not an ISA B2 (rev),
+                                        then, for a MISS Bit set in CSR0, 
+                                        reset the chip, and then process 
+                                        receive interrupts. The chip dmas
+                                        corrupt receives, and indicates
+                                        with a MISS bit set. A Stop + 
+                                        SetupRegistersAndInit + Start
+                                        (reset) is needed to fix this issue.
+
+09/13/96 Win95   Ram Send.c     Rev3.18 In LanceSend, 
+                                        TransmitPacket,
+                                        LanceProcessSendPacketQueue and
+                                        LanceProcessSendPacketImmediately the
+                                        reset sections of the code are 
+                                        protected with ;
+                                        pushfd
+                                        cli
+                                        code
+                                        popfd
+                                        This is to complete all the resets
+                                        synchronously. Relevant for ISA, VL
+                                        ISA+ and P1.
+
+09/13/96 NT3.51/ Ram Lance.c    Rev3.18 In SetupRegistersAndInit, the 
+         Win95                          LanceTMDFlags is assigned 
+                                        (STP | ENP). On reset if the
+                                        LanceTMDFlags originally had
+                                        the OWN bit set, then an OR,
+                                        as done previously, leaves the OWN
+                                        bit set, and the chip does not 
+                                        transmit the packet. This is seen in
+                                        the ISA B1/B2 case and has not
+                                        been observed in the other 
+                                        controllers. 
+                                        The same assignment is done for the
+                                        LanceRMDFlags also.
+
+09/13/96 NT3.51/ Ram Lance.c    Rev3.18 In SetupRegistersAndInit, MISSM
+         Win95                          is not set in CSR3 for all chips.
+                                        This is to service all receives
+                                        incase descriptors are full.
+                                        For ISA and VL chips, IDONM is not
+                                        set in CSR3. This is to generate an
+                                        interrupt on a Reset and complete all
+                                        pending Tx packets queued.
+
+09/13/96 NT3.51/ Ram Lance.c    Rev3.18 In LanceReset, the LanceStartChip
+         Win95                          is used to start the chip. This 
+                                        routine starts the chip but does not
+                                        enable dma in the pci config space.
+                                        The LanceStop routine stops the chip
+                                        and disables dma in the pci config
+                                        space. So, the sequence of Stop, 
+                                        SetupRegistersAndInit, Start is 
+                                        broken. The LanceInit routine is 
+                                        called instead, and this aspect of
+                                        dma enable is taken care of. This
+                                        is relevant to all PCI adapters.
+
+12/05/96 NT3.51/ Duke Lance.c  Rev3.21  Called LanceCancelTimer in 
+         Win95                          LanceRemoveAdapter. Looks like
+                                        someone forgot to call this function
+                                        causing a lot of problems. (blue screen 
+                                        on net stop, suspend, etc...)
+
+12/06/96 NT3.51/ Duke Lance.c  Rev3.22  In DriverEntry, always return
+         Win95                          STATUS_SUCCESS. This is what microsoft
+                                        told me to do and will fix net start and
+                                        stop problems.
+
+02/12/97 NT3.51/ Duke Lance.c  Rev3.23  LanceCancelTimer called before LanceStopChip
+         Win95                          in the LanceRemoveAdapter.
+                                        
+                                        
+

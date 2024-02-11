@@ -1,0 +1,209 @@
+; SANREMO.INF
+;
+; AMD Based Network Interface Cards.
+;
+; Copyright 1993-1995, Microsoft Corporation
+
+[version]
+LayoutFile=layout.inf
+signature="$Windows95$"
+Class=Net
+provider=%V_MS%
+
+[Manufacturer]
+%V_AMD%=AMD
+
+[SourceDisksNames]
+1 = %Disk1%,, 0000-0000
+
+[SourceDisksFiles]
+SANREMO.VXD = 1,,sanremo.vxd,12345
+SANREMO.INF = 1,,sanremo.inf,1234
+
+[AMD]
+%mca_8f62.DeviceDesc%=mca_8f62.ndi, mca_8f62 ;IBM 10/100 Mbps Ethernet TX MCA Adapter (9-K)
+
+;****************************************************************************
+;mca_8f62       ;AMD PCnet MCA
+;****************************************************************************
+[mca_8f62.ndi]
+AddReg=mca_8f62.ndi.reg,PCnet.ndi.reg, AMD.ndi.reg, PCNET2.ndi.reg
+
+[mca_8f62.ndi.reg]
+HKR,Ndi,DeviceID,,"mca_8f62"
+
+;****************************************************************************
+; AMD Drivers
+;****************************************************************************
+[PCNET2.ndi.reg]
+HKR,NDI\params\BUSTIMER,flag,1,30,00,00,00
+HKR,NDI\params\LED0,flag,1,20,00,00,00
+HKR,NDI\params\LED1,flag,1,20,00,00,00
+HKR,NDI\params\LED2,flag,1,20,00,00,00
+HKR,NDI\params\LED3,flag,1,20,00,00,00
+HKR,NDI\params\BURST,flag,1,20,00,00,00
+
+[AMD.ndi.reg]
+; Resources
+HKR,,Interrupt,1,04,00,00,00
+HKR,,IOAddress,1,02,00,00,00
+HKR,,DMAChannel,1,03,00,00,00
+HKR,NDI\params\Interrupt,resc,1,04,00,00,00
+HKR,Ndi\params\interrupt,ParamDesc,,"Interrupt Level"
+HKR,NDI\params\interrupt,flag,1,30,00,00,00
+HKR,Ndi\params\ioaddress,resc,1,02,00,00,00
+HKR,Ndi\params\ioaddress,ParamDesc,,"I/O Base Address"
+HKR,NDI\params\ioaddress,flag,1,30,00,00,00
+HKR,NDI\params\DMAChannel,resc,1,03,00,00,00
+HKR,NDI\params\DMAChannel,ParamDesc,,"DMA Channel"
+HKR,NDI\params\DMAChannel,flag,1,30,00,00,00
+
+;BUSTIMER
+HKR,Ndi\params\BUSTIMER,ParamDesc,,"Bus Timer(Micro Seconds)"
+HKR,Ndi\params\BUSTIMER,default,,0
+HKR,Ndi\params\BUSTIMER,type,,enum
+HKR,Ndi\params\BUSTIMER\enum,0,,Default
+HKR,Ndi\params\BUSTIMER\enum,5,,5
+HKR,Ndi\params\BUSTIMER\enum,6,,6
+HKR,Ndi\params\BUSTIMER\enum,7,,7
+HKR,Ndi\params\BUSTIMER\enum,8,,8
+HKR,Ndi\params\BUSTIMER\enum,9,,9
+HKR,Ndi\params\BUSTIMER\enum,10,,10
+HKR,Ndi\params\BUSTIMER\enum,11,,11
+HKR,Ndi\params\BUSTIMER\enum,12,,12
+HKR,Ndi\params\BUSTIMER\enum,13,,13
+
+;LED0
+HKR,NDI\params\LED0,ParamDesc,,"LED0"
+HKR,NDI\params\LED0,default,,00c0
+HKR,NDI\params\LED0,type,,enum
+HKR,NDI\params\LED0\enum,00c0,,Default (c0)
+HKR,NDI\params\LED0\enum,0,,0
+HKR,NDI\params\LED0\enum,2,,2
+HKR,NDI\params\LED0\enum,4,,4
+HKR,NDI\params\LED0\enum,8,,8
+HKR,NDI\params\LED0\enum,10,,10
+HKR,NDI\params\LED0\enum,20,,20
+HKR,NDI\params\LED0\enum,30,,30
+HKR,NDI\params\LED0\enum,34,,34
+HKR,NDI\params\LED0\enum,40,,40
+HKR,NDI\params\LED0\enum,81,,81
+HKR,NDI\params\LED0\enum,00b0,,b0
+HKR,NDI\params\LED0\enum,4088,,4088
+
+;LED1
+HKR,NDI\params\LED1,ParamDesc,,"LED1"
+HKR,NDI\params\LED1,default,,00b0
+HKR,NDI\params\LED1,type,,enum
+HKR,NDI\params\LED1\enum,00b0,,Default (b0)
+HKR,NDI\params\LED1\enum,0,,0
+HKR,NDI\params\LED1\enum,2,,2
+HKR,NDI\params\LED1\enum,4,,4
+HKR,NDI\params\LED1\enum,8,,8
+HKR,NDI\params\LED1\enum,10,,10
+HKR,NDI\params\LED1\enum,20,,20
+HKR,NDI\params\LED1\enum,30,,30
+HKR,NDI\params\LED1\enum,34,,34
+HKR,NDI\params\LED1\enum,40,,40
+HKR,NDI\params\LED1\enum,81,,81
+HKR,NDI\params\LED1\enum,00c0,,c0
+HKR,NDI\params\LED1\enum,4088,,4088
+
+;LED2
+HKR,NDI\params\LED2,ParamDesc,,"LED2"
+HKR,NDI\params\LED2,default,,4088
+HKR,NDI\params\LED2,type,,enum
+HKR,NDI\params\LED2\enum,4088,,Default (4088)
+HKR,NDI\params\LED2\enum,0,,0
+HKR,NDI\params\LED2\enum,2,,2
+HKR,NDI\params\LED2\enum,4,,4
+HKR,NDI\params\LED2\enum,8,,8
+HKR,NDI\params\LED2\enum,10,,10
+HKR,NDI\params\LED2\enum,20,,20
+HKR,NDI\params\LED2\enum,30,,30
+HKR,NDI\params\LED2\enum,34,,34
+HKR,NDI\params\LED2\enum,40,,40
+HKR,NDI\params\LED2\enum,81,,81
+HKR,NDI\params\LED2\enum,00b0,,b0
+HKR,NDI\params\LED2\enum,00c0,,c0
+
+;LED3
+HKR,NDI\params\LED3,ParamDesc,,"LED3"
+HKR,NDI\params\LED3,default,,81
+HKR,NDI\params\LED3,type,,enum
+HKR,NDI\params\LED3\enum,81,,Default (81)
+HKR,NDI\params\LED3\enum,0,,0
+HKR,NDI\params\LED3\enum,2,,2
+HKR,NDI\params\LED3\enum,4,,4
+HKR,NDI\params\LED3\enum,8,,8
+HKR,NDI\params\LED3\enum,10,,10
+HKR,NDI\params\LED3\enum,20,,20
+HKR,NDI\params\LED3\enum,30,,30
+HKR,NDI\params\LED3\enum,34,,34
+HKR,NDI\params\LED3\enum,40,,40
+HKR,NDI\params\LED3\enum,b0,,b0
+HKR,NDI\params\LED3\enum,c0,,c0
+HKR,NDI\params\LED3\enum,4088,,4088
+
+;BURST
+HKR,Ndi\params\BURST,ParamDesc,,"Burst Mode"
+HKR,Ndi\params\BURST,default,,0
+HKR,Ndi\params\BURST,type,,enum
+HKR,Ndi\params\BURST\enum,0,,"Rx+Tx"
+HKR,Ndi\params\BURST\enum,1,,"Tx only"
+
+;****************************************************************************
+; PCnet Drivers
+;****************************************************************************
+[PCnet.ndi.reg]
+; key,subkey,valuname,type,value
+HKR,,DevLoader,,*ndis
+HKR,,DeviceVxDs,,sanremo.vxd
+HKR,,EnumPropPages,,"netdi.dll,EnumPropPages"
+; NDIS Info
+HKR,NDIS,LogDriverName,,"SANREMO"
+HKR,NDIS,MajorNdisVersion,1,03
+HKR,NDIS,MinorNdisVersion,1,0A
+; Interfaces
+HKR,Ndi\Interfaces,DefUpper,,"ndis3"
+HKR,Ndi\Interfaces,DefLower,,"ethernet"
+HKR,Ndi\Interfaces,UpperRange,,"ndis3"
+HKR,Ndi\Interfaces,LowerRange,,"ethernet"
+; Install sections
+HKR,Ndi\Install,ndis3,,"PCnet.ndis3"
+
+; Install NDIS3
+[PCnet.ndis3]
+CopyFiles=PCnet.ndis3.CopyFiles, PCnet.inf.CopyFiles
+[PCnet.ndis3.CopyFiles]
+sanremo.vxd
+
+;Install the Inf file.
+;
+[PCnet.inf.CopyFiles]
+sanremo.inf
+
+;****************************************************************************
+; Destination Directories
+;****************************************************************************
+[DestinationDirs]
+DefaultDestDir               =11 ; LDID_SYS
+PCnet.ndis3.CopyFiles        =11 ; LDID_WINBOOT
+PCnet.inf.CopyFiles          =17 ; LDID_INF
+
+;****************************************************************************
+; Localizable Strings
+;****************************************************************************
+[strings]
+; Provider
+V_MS="AMD"
+; Manufacturers
+V_AMD="Advanced Micro Devices (AMD)"
+
+; PNP Devices
+
+mca_8f62.DeviceDesc="IBM 10/100 Mbps Ethernet TX MCA Adapter (9-K)"
+
+Disk1="AMD PCnet Driver Disk"
+
+

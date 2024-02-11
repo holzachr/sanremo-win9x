@@ -1,0 +1,79 @@
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.
+	c:\ddk\net\bin\includes.exe -i -L$(BIN) -S$(BIN) *.asm *.c > depend.mk
+	nmaker BIN=retail DEB="-DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO"
+	if not exist retail\nul md retail
+	copy sanremo.inf retail
+        1 Datei(en) kopiert
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/alloc.obj alloc.c
+alloc.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/interrup.obj interrup.c
+interrup.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/loopback.obj loopback.c
+loopback.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/packet.obj packet.c
+packet.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/request.obj request.c
+request.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/lance.obj lance.c
+lance.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/send.obj send.c
+send.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set CL= -nologo -W2 -Zdp -Gs -DIS_32 -Zl -Oy- -Ox -c -Gz -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO
+	C:\MSVC20\bin\cl.exe -bzalign -Foretail/transfer.obj transfer.c
+transfer.c
+	set INCLUDE=C:\MASM611\INCLUDE;c:\ddk\inc32;c:\ddk\net\inc;.;c:\ddk\inc32;c:\ddk\net\inc;.
+	set ML= -DIS_32 -nologo -W2 -Zd -Cx -DMASM6 -DVMMSYS -Zm -DWIN31COMPAT -DNDIS_WIN -c -coff -DBLD_COFF -DNDIS_STDCALL -DDEBLEVEL=0 -DNDIS2=1 -DCHICAGO -DMAC=SANREMO
+	ml.exe -Foretail/ndisdev.obj c:\ddk\net\ndis3\src\ndisdev.asm
+ Assembling: c:\ddk\net\ndis3\src\ndisdev.asm
+	C:\msvc20\bin\link.exe @C:\MASM611\TMP\nm006300.
+Microsoft (R) 32-Bit Incremental Linker Version 2.60.5046
+Copyright (C) Microsoft Corp 1992-1995. All rights reserved.
+
+-MACHINE:i386 
+-DEBUG:NONE 
+-PDB:NONE 
+-DEF:SANREMO.def 
+-OUT:retail\SANREMO.VXD 
+-MAP:retail\SANREMO.map 
+-VXD 
+c:\ddk\net\ndis3\lib\retail\libndis.clb 
+C:\DDK\lib\vxdwraps.clb 
+retail\alloc.obj 
+retail\interrup.obj 
+retail\loopback.obj 
+retail\packet.obj 
+retail\request.obj 
+retail\lance.obj 
+retail\send.obj 
+retail\transfer.obj 
+retail\ndisdev.obj 
+SANREMO.def : warning LNK4017: COMMON statement not supported for the target platform; ignored
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (40000040)
+LINK : warning LNK4078: multiple "LCODE_vxdpn" sections found with different attributes (C0000040)
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpni" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+LINK : warning LNK4039: section "MCODE_vxdpdi" specified with /SECTION option does not exist
+	cd      retail
+	C:\MSTOOLS\bin\mapsym.exe SANREMO
+Microsoft (R) Symbol File Generator  Version 6.00
+Copyright (C) Microsoft Corp 1984 - 1995.  All rights reserved.
+Line number support enabled
+Program entry point at 0003:0000
+	cd      ..

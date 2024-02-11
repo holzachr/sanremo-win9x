@@ -1,0 +1,189 @@
+;Codewright Project File (do not remove or modify this line)
+[ProjInit]
+ConfigSetExtMode=2
+ProjSetConfigFlags=0x0c110940
+
+[State]
+SysSetCwd='C:\DRIVER'
+SrchSetFlags=0x00167047
+SrchSetAgainFlags=0x04076005,0
+SrchSetAgainFlags=0x02167046,1
+SrchSetAttrElements=
+SrchSetAgainAttrElements=
+FileSortMode=0x0
+_StateHistory=FILELIST,'C:\DRIVER\PCNTN3.DEF','C:\DRIVER\SOURCES','C:\DRIVER\ALLOC.C','C:\DRIVER\PACKET.C','C:\DRIVER\TRANSFER.C','C:\DRIVER\LANCE.INC','C:\DRIVER\netamd.inf','C:\DRIVER\sanremo.inf','C:\DRIVER\INTERRUP.C'
+_StateHistory=SEARCH,'FDUP_DEFAULT','FDUP','FullDuplex','LanceSlotNumber','BusTimer','slotnumber','led3','LED3_DEFAULT','BREADE','BURST_DEFAULT'
+_StateHistory=EDITFILE,'C:\DRIVER\ALLOC.C','C:\DRIVER\build.bat','C:\DRIVER\rebuild.bat','C:\ndis3win\ndis3_win','C:\Share\DRIVER_20231117_1_Preparing_for_MCA_untested\DRIVER\LANCE.C','C:\Share\DRIVER_PCI_20231117_5_final_cleanup\DRIVER\LANCE.C','C:\DRIVER\netamd.inf','C:\DRIVER\sanremo.inf','C:\DRIVER\ALLOC.C','C:\DRIVER\TRANSFER.C'
+_StateHistory=DIRECTORY,'C:\Share\DRIVER_20231117_1_Preparing_for_MCA_untested\DRIVER','C:\Share\DRIVER_M\DRIVER'
+_StateHistory=DIFFFILE,'C:\Share\DRIVER_20231117_1_Preparing_for_MCA_untested\DRIVER\LANCE.C','C:\Share\DRIVER_PCI_20231117_5_final_cleanup\DRIVER\LANCE.C'
+_StateHistory=DIFFTARGET,'C:\DRIVER\LANCE.C'
+_StateHistory=DOCUMENTVISIT,'208         59          C:\DRIVER\LANCESFT.H','3104        11          C:\DRIVER\LANCE.C','207         67          C:\DRIVER\sanremo.inf','3079        39          C:\DRIVER\LANCE.C','206         15          C:\DRIVER\LANCESFT.H','154         1           C:\DRIVER\sanremo.inf','3079        36          C:\DRIVER\LANCE.C','208         1           C:\DRIVER\LANCESFT.H','97          24          C:\DRIVER\LANCE.C','153         39          C:\DRIVER\sanremo.inf'
+_StateHistory=DIFFDIRREFERENCE,'C:\Share\DRIVER_20231117_1_Preparing_for_MCA_untested\DRIVER','C:\Share\DRIVER_M\DRIVER','C:\Share\MCA_5\DRIVER'
+_StateHistory=DIFFDIRTARGET,'C:\DRIVER'
+_StateHistory=DIFFDIRSCOPE,'*.bak'
+_StateHistory=XVCS,'RCS','TLIB','PVCS','SourceSafe'
+_StateDocumentVisit=10
+ProjLoadWorkspace='PCNTN3',1
+
+[Files]
+.\INTERRUP.C
+.\LANCE.C
+.\LANCE.INC
+.\LANCEHRD.H
+.\LANCESFT.H
+.\LOOPBACK.C
+.\Makefile
+.\NDIS.MK
+.\NDISDEV.ASM
+.\PACKET.C
+.\REQUEST.C
+.\SEND.C
+.\ALLOC.C
+.\DEPEND.MK
+.\PCNTN3.RC
+.\rebuild.bat
+.\sanremo.inf
+.\TRANSFER.C
+
+[Editor]
+FilterProjDeleteList 
+FilterProjAdd='Header Files','*.h;*.hpp;*.inc',-1
+FilterProjAdd='Resources','*.rc;*.bmp;*.ico;*.cur;*.dlg',-1
+FilterProjAdd='Other Files','*.*',-1
+FilterProjAdd='Source Files','*.C;*.asm',-1
+_RestoreSysFlags=0xcb0977ca, 0xfffffffc, 0
+VCSProject=''
+VCSProjectPath=''
+VCSProjectLocalPath=''
+ScrapSetCount=1
+ClipboardSetCount=1
+ClipboardEnableSepStr=1
+ClipboardSetSepStr='\r\n',0
+ClipboardEnableTermStr=1
+ClipboardSetTermStr='\r\n',0
+
+[Tools]
+ToolDeleteList 
+ToolAddCmd='$_custom_tool_$_1','API Database Editor',1342177312,'cwtedit.exe'
+ToolAddCmd='$_custom_tool_$_2','Paint',1342177312,'pbrush.exe'
+
+[Compiler]
+CFGSetActive='Release'
+TagSetCmd='${HOME}${WTAGS} -oc -d -t${TAGFILE}.tag -p${TAGFILE}.ptg',0x8000060
+BrowseSetFile='tagfile.ptg'
+TagSetFile='C:\Programme\CodeWright 7.5\tagfile.tag'
+CompilerAddCmdEx='Debug|$_cw_proj_hash_$','',1073741824,'',0,'build.bat dbg',128,'${FTEE} nmake',0,'rebuild.bat dbg',128,'${FTEE} nmake',0,'',0,'',0,'_ErrorInfoDefault','','','proj.err','%x'
+CompilerAddResponse='Debug|$_cw_proj_hash_$',
+CompilerAddCmdEx='Default Compiler Settings','',1073741840,'',16,'',16,'',0,'',16,'',0,'',0,'',0,'','','','',''
+CompilerAddResponse='Default Compiler Settings',
+CompilerAddCmdEx='|$_cw_proj_hash_$','',1073741904,'',80,'',176,'',176,'',176,'',176,'',0,'',0,'_ErrorInfoDefault','','','proj.err','%x'
+CompilerAddResponse='|$_cw_proj_hash_$',
+CompilerAddCmdEx='Release|$_cw_proj_hash_$','',1073741824,'',0,'build.bat rtl',128,'${FTEE} nmake',0,'rebuild.bat rtl',128,'${FTEE} nmake',0,'',0,'',0,'_ErrorInfoDefault','','','proj.err','%x'
+CompilerAddResponse='Release|$_cw_proj_hash_$',
+CompilerAddCmdEx='Microsoft C(NT-i386)','${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',1073741936,'${FTEE} cl -DSTRICT -c -W3 -G3 -D_X86_=1 -DWIN32 %r%e',112,'',144,'',0,'',144,'',0,'',0,'',0,'_MicrosoftErrorInfo','','','',''
+CompilerAddResponse='Microsoft C(NT-i386)',
+CompilerAssign='Microsoft C(NT-i386)','Release|.c'
+CompilerNewExt=Release|.asp
+CompilerNewExt=Release|.java
+CompilerNewExt=.htm
+CompilerAssign='Microsoft C(NT-i386)','Debug|.h'
+CompilerAssign='Microsoft C(NT-i386)','Debug|.hpp'
+CompilerNewExt=Release|.txt
+CompilerNewExt=.mac
+CompilerNewExt=.c
+CompilerNewExt=Debug|.java
+CompilerNewExt=Debug|.jav
+CompilerNewExt=.h
+CompilerAssign='Microsoft C(NT-i386)','Debug|.c'
+CompilerNewExt=.pas
+CompilerNewExt=Release|.xml
+CompilerAssign='Default Compiler Settings','Release|.*'
+CompilerAssign='Default Compiler Settings','Debug|.*'
+CompilerAssign='Microsoft C(NT-i386)','Release|.h'
+CompilerNewExt=Debug|.txt
+CompilerAssign='Microsoft C(NT-i386)','Release|.cxx'
+CompilerNewExt=Release|.pas
+CompilerNewExt=.asp
+CompilerNewExt=Release|.cs
+CompilerNewExt=Release|.jav
+CompilerNewExt=Release|.htm
+CompilerNewExt=Debug|.html
+CompilerNewExt=Debug|.pas
+CompilerAssign='Microsoft C(NT-i386)','Release|.cpp'
+CompilerNewExt=Release|.ini
+CompilerNewExt=Release|.html
+CompilerNewExt=.inc
+CompilerNewExt=.ini
+CompilerNewExt=Debug|.htm
+CompilerNewExt=Debug|.inc
+CompilerNewExt=Debug|.cs
+CompilerNewExt=.cs
+CompilerNewExt=.html
+CompilerNewExt=.*
+CompilerAssign='Microsoft C(NT-i386)','Debug|.cpp'
+CompilerNewExt=.cpp
+CompilerNewExt=.cxx
+CompilerAssign='Microsoft C(NT-i386)','Release|.hpp'
+CompilerNewExt=Debug|.ini
+CompilerNewExt=Debug|.asp
+CompilerNewExt=.hpp
+CompilerNewExt=.asm
+CompilerNewExt=.txt
+CompilerAssign='Microsoft C(NT-i386)','Debug|.cxx'
+CompilerNewExt=Release|.inc
+CompilerNewExt=Debug|.xml
+CompilerNewExt=.xml
+CompilerNewExt=.java
+CompilerNewExt=.jav
+
+[VersionControl:PVCS]
+VCSSetCmd=VCS_CHECKIN_ID,'put -n -T@%Q -M@%Q %b%e',0x8000040
+VCSSetCmd=VCS_CHECKINLOCK_ID,'put -n -T@%Q -M@%Q -l %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUT_ID,'get -y %b%e',0x8000040
+VCSSetCmd=VCS_CHECKOUTLOCK_ID,'tlib E %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOCK_ID,'tlib O %b%e',0x8000040
+VCSSetCmd=VCS_CHECKUNLOCK_ID,'tlib I %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLABEL_ID,'tlibsnap A ${VCSLABEL} S %b%e',0x8000040
+VCSSetCmd=VCS_CHECKLOG_ID,'tlib L %b%e',0x8000040
+VCSSetCmd=VCS_CHECKPROP_ID,'tlib T %b%e',0x8000040
+VCSSetCmd=VCS_CHECKDIFF_ID,'cmpr %b%e',0x8000040
+VCSSetCmd=VCS_CHECKMENU_ID,'tlib ?',0x8000000
+VCSSetCmd=VCS_ADD_ID,'tlib N %b%e @%Q',0x8000040
+VCSSetCmd=VCS_REMOVE_ID,'del /f %b.tlb',0x8000040
+
+[Project]
+ConfigSetUserMakefile=''
+ConfigSetUserMakefileParser=''
+ConfigSetUserMakefileTimeStamp=0
+ConfigSetUserMakefileAutoSync=0
+ConfigSetLinkDBFilename='C:\Programme\CdeWright\CodeWright 7.5\cwright.ldb'
+ConfigSetMarkDBFilename='C:\Programme\CdeWright\CodeWright 7.5\cwright.mrk'
+ConfigSetSymbolDBFilename='C:\DRIVER\pcntn3.sbl'
+EditSetPath=''
+[Workspace.PCNTN3]
+StateWindowFrame=0,0,1260,737,0xcb0977ca
+_StateView='C:\DRIVER\ALLOC.C',22,22,648,310,-1,-1,33,1,26,1,5,'',0x0810000d,0,10,0,0,'',0,5
+_StateView='C:\DRIVER\LANCESFT.H',154,154,939,452,-1,-1,208,1,200,1,11,'',0x0810004d,0,10,0,0,'',0,11
+_StateView='C:\DRIVER\LANCE.INC',88,88,648,310,-1,-1,132,16,120,1,12,'',0x0810000d,0,10,0,0,'',0,12
+_StateView='C:\DRIVER\LANCEHRD.H',110,110,1001,452,-1,-1,488,71,479,1,3,'',0x0810004d,0,10,0,0,'',0,2
+_StateView='C:\DRIVER\LANCE.C',66,66,1001,452,-1,-1,63,17,51,1,1,'',0x0810005d,0,10,0,0,'',0,3
+_StateView='C:\DRIVER\sanremo.inf',66,66,648,310,-1,-1,153,39,139,1,4,'',0x0810000d,0,10,0,0,'',0,4
+_StateView='C:\DRIVER\NDIS.MK',0,0,648,310,-1,-1,50,25,40,1,6,'',0x0810000d,0,10,0,0,'',0,6
+_StateView='C:\DRIVER\SEND.C',110,110,648,310,-1,-1,1696,11,1684,1,7,'',0x0810000d,0,10,0,0,'',0,7
+_StateView='C:\DRIVER\INTERRUP.C',88,88,648,310,-1,-1,1132,1,1130,1,8,'',0x0810000d,0,10,0,0,'',0,8
+_StateView='C:\DRIVER\TRANSFER.C',66,66,648,310,-1,-1,43,1,26,1,9,'',0x0810000d,0,10,0,0,'',0,9
+_StateView='C:\DRIVER\REQUEST.C',132,132,648,310,-1,-1,1580,1,1572,1,10,'',0x0810000d,0,10,0,0,'',0,10
+_StateView='C:\DRIVER\rebuild.bat',66,66,939,452,-1,-1,35,18,27,1,2,'',0x0810004d,0,10,0,0,'',0,1
+_StateBuffer='C:\DRIVER\LANCESFT.H',0x84000c8a,208,1,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\LANCE.INC',0x84000c8a,132,16,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\rebuild.bat',0x84000c8a,35,18,25,'9 17 25 33 41 49 57 65 73 81 89 97 105 113 121 129 137 145 153 161 169 177 185 193','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\LANCEHRD.H',0x8c000c8a,488,71,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\LANCE.C',0x84000c8a,63,17,25,'3 5 7 9 11 13','',0x0,'',1,72,1,0,'',''
+_StateBuffer='C:\DRIVER\sanremo.inf',0x84000c8a,153,39,25,'9 17 25 33 41 49 57 65 73 81 89 97 105 113 121 129 137 145 153 161 169 177 185 193','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\ALLOC.C',0x84000c8a,33,1,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\NDIS.MK',0x84000c8a,50,25,25,'9 17 25 33 41 49 57 65 73 81 89 97 105 113 121 129 137 145 153 161 169 177 185 193','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\SEND.C',0x84000c8a,1696,11,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\INTERRUP.C',0x84000c8a,1132,1,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\TRANSFER.C',0x84000c8a,43,1,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+_StateBuffer='C:\DRIVER\REQUEST.C',0x84000c8a,1580,1,25,'3 5 7 9 11 13','',0x0,'',1,72,0,0,'',''
+
